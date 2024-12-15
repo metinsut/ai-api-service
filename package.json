@@ -9,7 +9,11 @@
     "typecheck": "tsc --noEmit",
     "lint": "bunx @biomejs/biome check .",
     "lint:fix": "bunx @biomejs/biome check . --write",
-    "clear": "rm -rf node_modules && rm -rf dist && rm -rf bun.lockb"
+    "clear": "rm -rf node_modules && rm -rf dist && rm -rf bun.lockb",
+    "db:generate": "bunx drizzle-kit generate:pg",
+    "db:migrate": "bun run src/lib/db/migrate.ts",
+    "db:push": "bunx drizzle-kit push:pg",
+    "db:studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
     "hono": "^4.0.0",

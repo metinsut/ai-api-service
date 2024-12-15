@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
 import { config } from "./config/env.js";
 import { logger, requestLogger } from "./lib/logger.js";
+import { errorHandler } from "./middlewares/error-handler.js";
+import { NotFoundError } from "./lib/errors.js";
 
 const app = new Hono();
 
@@ -20,39 +22,18 @@ app.get("/health", (c) => {
   });
 });
 
-// Error handling
-app.onError((err, c) => {
-  logger.error({
-    err,
-    path: c.req.path,
-    method: c.req.method,
-  });
-
-  return c.json(
-    {
-      status: "error",
-      message: err.message,
-    },
-    500,
-  );
+// Test error handling
+app.get("/error-test", () => {
+  throw new NotFoundError("This is a test error");
 });
 
 // 404 handler
-app.notFound((c) => {
-  logger.warn({
-    msg: "Route not found",
-    path: c.req.path,
-    method: c.req.method,
-  });
-
-  return c.json(
-    {
-      status: "error",
-      message: "Not Found",
-    },
-    404,
-  );
+app.notFound(() => {
+  throw new NotFoundError();
 });
+
+// Error handler
+app.onError(errorHandler);
 
 // Start the server
 logger.info(`🚀 Server is running on port ${config.server.port} in ${config.server.nodeEnv} mode`);
