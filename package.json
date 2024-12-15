@@ -1,0 +1,16 @@
+{
+  "name": "ai-api-service",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "lint": "bunx @biomejs/biome check .",
+    "lint:fix": "bunx @biomejs/biome check . --write",
+    "clear": "rm -rf node_modules && rm -rf dist && rm -rf bun.lockb"
+  },
+  "dependencies": {
+    "hono": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@biomejs/biome": "latest"
+  }
+}
