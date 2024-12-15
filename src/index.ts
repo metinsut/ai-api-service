@@ -1,11 +1,10 @@
 import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
-import userRoutes from "./components/users/routes";
 import { config } from "./config/env";
 import { NotFoundError } from "./lib/errors";
 import { logger, requestLogger } from "./lib/logger";
-import { auth } from "./middlewares/auth";
 import { errorHandler } from "./middlewares/error-handler";
+import { api } from "./components/api";
 
 const app = new Hono();
 
@@ -24,21 +23,7 @@ app.get("/health", (c) => {
   });
 });
 
-// Protected route example
-app.get("/protected", auth, (c) => {
-  return c.json({
-    status: "success",
-    message: "You have access to this protected route",
-  });
-});
-
-// Mount user routes
-app.route("/api/users", userRoutes);
-
-// Test error handling
-app.get("/error-test", () => {
-  throw new NotFoundError("This is a test error");
-});
+app.route("/api", api);
 
 // 404 handler
 app.notFound(() => {
