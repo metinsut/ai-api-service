@@ -1,16 +1,29 @@
 {
-  "name": "ai-api-service",
+  "name": "hono-backend",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "bun run --hot src/index.ts",
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist",
+    "start": "bun run dist/index.js",
+    "typecheck": "tsc --noEmit",
     "lint": "bunx @biomejs/biome check .",
     "lint:fix": "bunx @biomejs/biome check . --write",
     "clear": "rm -rf node_modules && rm -rf dist && rm -rf bun.lockb"
   },
   "dependencies": {
-    "hono": "latest"
+    "hono": "^4.0.0",
+    "@hono/zod-validator": "^0.1.11",
+    "zod": "^3.22.4",
+    "drizzle-orm": "^0.29.3",
+    "postgres": "^3.4.3",
+    "pino": "^8.18.0",
+    "pino-pretty": "^10.3.1"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "@biomejs/biome": "latest"
+    "@types/node": "^20.11.24",
+    "bun-types": "latest",
+    "drizzle-kit": "^0.20.14",
+    "typescript": "^5.3.3"
   }
 }
