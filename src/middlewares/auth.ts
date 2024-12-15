@@ -1,8 +1,8 @@
 import type { Context, Next } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
-import { config } from "../config/env.js";
-import { UnauthorizedError } from "../lib/errors.js";
-import { logger } from "../lib/logger.js";
+import { config } from "../config/env";
+import { UnauthorizedError } from "../lib/errors";
+import { logger } from "../lib/logger";
 
 // Context type extension for user
 declare module "hono" {

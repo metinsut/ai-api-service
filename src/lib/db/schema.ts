@@ -9,3 +9,7 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+// Types for type safety
+export type User = typeof users.$inferSelect; // what you get from db
+export type NewUser = typeof users.$inferInsert; // what you can insert into db

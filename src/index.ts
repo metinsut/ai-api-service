@@ -1,10 +1,11 @@
 import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
-import { config } from "./config/env.js";
-import { NotFoundError } from "./lib/errors.js";
-import { logger, requestLogger } from "./lib/logger.js";
-import { auth } from "./middlewares/auth.js";
-import { errorHandler } from "./middlewares/error-handler.js";
+import userRoutes from "./components/users/routes";
+import { config } from "./config/env";
+import { NotFoundError } from "./lib/errors";
+import { logger, requestLogger } from "./lib/logger";
+import { auth } from "./middlewares/auth";
+import { errorHandler } from "./middlewares/error-handler";
 
 const app = new Hono();
 
@@ -30,6 +31,9 @@ app.get("/protected", auth, (c) => {
     message: "You have access to this protected route",
   });
 });
+
+// Mount user routes
+app.route("/api/users", userRoutes);
 
 // Test error handling
 app.get("/error-test", () => {

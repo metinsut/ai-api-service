@@ -1,6 +1,6 @@
 import type { Context, Next } from "hono";
 import pino from "pino";
-import { config } from "../config/env.js";
+import { config } from "../config/env";
 
 const transport = pino.transport({
   target: "pino-pretty",

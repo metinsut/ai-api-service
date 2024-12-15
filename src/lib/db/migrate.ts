@@ -1,8 +1,8 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
-import { config } from "../../config/env.js";
-import { logger } from "../logger.js";
+import { config } from "../../config/env";
+import { logger } from "../logger";
 
 const runMigrations = async () => {
   logger.info("Running migrations...");
