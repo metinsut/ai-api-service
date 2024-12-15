@@ -1,19 +1,21 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/neon-serverless";
 import { config } from "../../config/env";
 import { logger } from "../logger";
+import { Pool } from "@neondatabase/serverless";
 
-// Create the connection
-const client = postgres(config.database.url);
-
-// Create the database instance
-export const db = drizzle(client);
+// Create the connection pool
+const pool = new Pool({ connectionString: config.database.url });
+export const db = drizzle(pool);
 
 // Test the connection
-try {
-  await client`SELECT 1`;
-  logger.info("Database connection established");
-} catch (error) {
-  logger.error(error, "Failed to connect to database");
-  process.exit(1);
-}
+(async () => {
+  try {
+    const result = await pool.query("SELECT 1");
+    if (result) {
+      logger.info("Database connection established");
+    }
+  } catch (error) {
+    logger.error(error, "Failed to connect to database");
+    process.exit(1);
+  }
+})();
