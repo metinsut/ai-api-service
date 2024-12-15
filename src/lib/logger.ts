@@ -1,5 +1,5 @@
-import pino from "pino";
 import type { Context, Next } from "hono";
+import pino from "pino";
 import { config } from "../config/env.js";
 
 const transport = pino.transport({

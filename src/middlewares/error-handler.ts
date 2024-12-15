@@ -1,7 +1,7 @@
 import type { Context } from "hono";
+import { config } from "../config/env.js";
 import { AppError } from "../lib/errors.js";
 import { logger } from "../lib/logger.js";
-import { config } from "../config/env.js";
 
 export const errorHandler = async (err: Error, c: Context) => {
   // Log the error
