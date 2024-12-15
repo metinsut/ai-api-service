@@ -16,8 +16,7 @@ const envSchema = z.object({
   }),
 
   auth: z.object({
-    jwtSecret: z.string(),
-    jwtExpiresIn: z.string().default("7d"),
+    accessToken: z.string(),
   }),
 
   logger: z.object({
@@ -37,8 +36,7 @@ const env = envSchema.parse({
     url: Bun.env.DATABASE_URL,
   },
   auth: {
-    jwtSecret: Bun.env.JWT_SECRET,
-    jwtExpiresIn: Bun.env.JWT_EXPIRES_IN,
+    accessToken: Bun.env.JWT_SECRET,
   },
   logger: {
     level: Bun.env.LOG_LEVEL,

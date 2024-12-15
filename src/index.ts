@@ -7,6 +7,7 @@ import { errorHandler } from "./middlewares/error-handler.js";
 import { NotFoundError } from "./lib/errors.js";
 import { validate } from "./middlewares/validate.js";
 import type { ValidatedData } from "./middlewares/validate.js";
+import { auth } from "./middlewares/auth.js";
 
 const app = new Hono();
 
@@ -41,6 +42,14 @@ app.post("/users", validate(createUserSchema), (c) => {
     status: "success",
     message: "User created successfully",
     data,
+  });
+});
+
+// Protected route example
+app.get("/protected", auth, (c) => {
+  return c.json({
+    status: "success",
+    message: "You have access to this protected route",
   });
 });
 
