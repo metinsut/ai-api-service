@@ -19,6 +19,7 @@
     "@hono/zod-validator": "^0.1.11",
     "@neondatabase/serverless": "^0.10.4",
     "drizzle-orm": "^0.38.2",
+    "drizzle-zod": "^0.6.0",
     "hono": "^4.0.0",
     "pg": "^8.13.1",
     "pino": "^8.18.0",

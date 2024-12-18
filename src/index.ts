@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
+import { api } from "./components/api";
 import { config } from "./config/env";
 import { NotFoundError } from "./lib/errors";
 import { logger, requestLogger } from "./lib/logger";
 import { errorHandler } from "./middlewares/error-handler";
-import { api } from "./components/api";
 
 const app = new Hono();
 

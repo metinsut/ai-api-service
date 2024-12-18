@@ -1,10 +1,10 @@
-import { ConflictError, NotFoundError } from "../../lib/errors";
-import { logger } from "../../lib/logger";
+import type { NewUser } from "@/lib/db/schema";
+import { ConflictError, NotFoundError } from "@/lib/errors";
+import { logger } from "@/lib/logger";
 import { userRepository } from "./repository";
-import type { CreateUserDTO, UpdateUserDTO } from "./types";
 
 export class UserService {
-  async createUser(data: CreateUserDTO) {
+  async createUser(data: NewUser) {
     logger.debug({ data }, "Creating user");
 
     const existingUser = await userRepository.findByEmail(data.email);
@@ -30,7 +30,7 @@ export class UserService {
     return user;
   }
 
-  async updateUser(id: string, data: UpdateUserDTO) {
+  async updateUser(id: string, data: Partial<NewUser>) {
     const userId = Number.parseInt(id, 10);
     if (Number.isNaN(userId)) {
       throw new NotFoundError("Invalid user ID");

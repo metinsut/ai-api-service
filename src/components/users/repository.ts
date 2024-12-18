@@ -1,11 +1,10 @@
+import { db } from "@/lib/db";
+import { users } from "@/lib/db/schema";
+import type { NewUser, User } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { db } from "../../lib/db";
-import { users } from "../../lib/db/schema";
-import type { NewUser, User } from "../../lib/db/schema";
-import type { CreateUserDTO, UpdateUserDTO } from "./types";
 
 export class UserRepository {
-  async create(data: CreateUserDTO): Promise<User> {
+  async create(data: NewUser): Promise<User> {
     const [user] = await db
       .insert(users)
       .values(data as NewUser)
@@ -23,12 +22,8 @@ export class UserRepository {
     return user;
   }
 
-  async update(id: number, data: UpdateUserDTO): Promise<User> {
-    const [user] = await db
-      .update(users)
-      .set(data as Partial<NewUser>)
-      .where(eq(users.id, id))
-      .returning();
+  async update(id: number, data: Partial<NewUser>): Promise<User> {
+    const [user] = await db.update(users).set(data).where(eq(users.id, id)).returning();
     return user;
   }
 

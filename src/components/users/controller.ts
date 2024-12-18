@@ -1,11 +1,9 @@
 import type { Context } from "hono";
 import { userService } from "./service";
-import { createUserSchema, updateUserSchema } from "./types";
 
 export const createUser = async (c: Context) => {
   const data = await c.req.json();
-  const validated = createUserSchema.parse(data);
-  const user = await userService.createUser(validated);
+  const user = await userService.createUser(data);
   return c.json({ status: "success", data: user }, 201);
 };
 
@@ -18,8 +16,7 @@ export const getUser = async (c: Context) => {
 export const updateUser = async (c: Context) => {
   const id = c.req.param("id");
   const data = await c.req.json();
-  const validated = updateUserSchema.parse(data);
-  const user = await userService.updateUser(id, validated);
+  const user = await userService.updateUser(id, data);
   return c.json({ status: "success", data: user });
 };
 
