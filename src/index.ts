@@ -5,12 +5,14 @@ import { config } from "./config/env";
 import { NotFoundError } from "./lib/errors";
 import { logger, requestLogger } from "./lib/logger";
 import { errorHandler } from "./middlewares/error-handler";
+import { i18nMiddleware } from "./middlewares/i18n";
 
 const app = new Hono();
 
 // Global middlewares
 app.use("*", requestLogger());
 app.use("*", prettyJSON());
+app.use("*", i18nMiddleware);
 
 // Routes
 app.get("/health", (c) => {

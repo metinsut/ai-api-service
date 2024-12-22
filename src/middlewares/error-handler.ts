@@ -40,7 +40,7 @@ export const errorHandler = async (err: Error, c: Context) => {
   return c.json(
     {
       status: "error",
-      message: "Internal Server Error",
+      message: c.var.t("internal", { ns: "errors" }),
     },
     500,
   );

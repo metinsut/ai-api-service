@@ -1,6 +1,7 @@
 import type { NewUser } from "@/lib/db/schema";
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
+import { i18n } from "@/lib/i18n";
 import { userRepository } from "./repository";
 
 export class UserService {
@@ -9,7 +10,7 @@ export class UserService {
 
     const existingUser = await userRepository.findByEmail(data.email);
     if (existingUser) {
-      throw new ConflictError("Email already exists");
+      throw new ConflictError(i18n.t("emailExists", { ns: "users" }));
     }
 
     // TODO: Hash password before saving
@@ -20,12 +21,12 @@ export class UserService {
   async getUser(id: string) {
     const userId = Number.parseInt(id, 10);
     if (Number.isNaN(userId)) {
-      throw new NotFoundError("Invalid user ID");
+      throw new NotFoundError(i18n.t("invalidId", { ns: "users" }));
     }
 
     const user = await userRepository.findById(userId);
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError(i18n.t("notFound", { ns: "users" }));
     }
     return user;
   }
@@ -33,18 +34,18 @@ export class UserService {
   async updateUser(id: string, data: Partial<NewUser>) {
     const userId = Number.parseInt(id, 10);
     if (Number.isNaN(userId)) {
-      throw new NotFoundError("Invalid user ID");
+      throw new NotFoundError(i18n.t("invalidId", { ns: "users" }));
     }
 
     const user = await userRepository.findById(userId);
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError(i18n.t("notFound", { ns: "users" }));
     }
 
     if (data.email && data.email !== user.email) {
       const existingUser = await userRepository.findByEmail(data.email);
       if (existingUser) {
-        throw new ConflictError("Email already exists");
+        throw new ConflictError(i18n.t("emailExists", { ns: "users" }));
       }
     }
 
@@ -54,12 +55,12 @@ export class UserService {
   async deleteUser(id: string) {
     const userId = Number.parseInt(id, 10);
     if (Number.isNaN(userId)) {
-      throw new NotFoundError("Invalid user ID");
+      throw new NotFoundError(i18n.t("invalidId", { ns: "users" }));
     }
 
     const user = await userRepository.findById(userId);
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError(i18n.t("notFound", { ns: "users" }));
     }
 
     return userRepository.delete(userId);

@@ -4,17 +4,6 @@ import { config } from "../config/env";
 import { UnauthorizedError } from "../lib/errors";
 import { logger } from "../lib/logger";
 
-// Context type extension for user
-declare module "hono" {
-  interface ContextVariableMap {
-    user: {
-      id: string;
-      email: string;
-    };
-  }
-}
-
-// Create auth middleware with error handling
 export const auth = async (c: Context, next: Next) => {
   const middleware = bearerAuth({
     token: config.auth.accessToken, // We'll use a static token for now
