@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
-import { api } from "./components/api";
+import { api } from "./routes/api";
 import { config } from "./config/env";
 import { NotFoundError } from "./lib/errors";
 import { logger, requestLogger } from "./lib/logger";
