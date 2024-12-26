@@ -16,24 +16,24 @@
     "db:studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.1.11",
-    "@neondatabase/serverless": "^0.10.4",
-    "drizzle-orm": "^0.38.2",
-    "drizzle-zod": "^0.6.0",
-    "hono": "^4.0.0",
-    "i18next": "^24.2.0",
-    "i18next-http-middleware": "^3.7.0",
-    "pg": "^8.13.1",
-    "pino": "^8.18.0",
-    "pino-pretty": "^10.3.1",
-    "postgres": "^3.4.3",
-    "zod": "^3.22.4"
+    "@hono/zod-validator": "latest",
+    "@neondatabase/serverless": "latest",
+    "drizzle-orm": "latest",
+    "drizzle-zod": "latest",
+    "hono": "latest",
+    "i18next": "latest",
+    "i18next-http-middleware": "latest",
+    "pg": "latest",
+    "pino": "latest",
+    "pino-pretty": "latest",
+    "postgres": "latest",
+    "zod": "latest"
   },
   "devDependencies": {
-    "@types/node": "^20.11.24",
-    "@types/pg": "^8.11.10",
+    "@types/node": "latest",
+    "@types/pg": "latest",
     "bun-types": "latest",
-    "drizzle-kit": "^0.30.1",
-    "typescript": "^5.3.3"
+    "drizzle-kit": "latest",
+    "typescript": "latest"
   }
 }
