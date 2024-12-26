@@ -2,7 +2,7 @@ import type { NewUser } from "@/lib/db/schema";
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { i18n } from "@/lib/i18n";
-import { userRepository } from "./repository";
+import { userRepository } from "@routes/users/repository";
 
 export class UserService {
   async createUser(data: NewUser) {

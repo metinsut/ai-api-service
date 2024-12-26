@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { userService } from "./service";
+import { userService } from "@routes/users/service";
 
 export const createUser = async (c: Context) => {
   const data = await c.req.json();

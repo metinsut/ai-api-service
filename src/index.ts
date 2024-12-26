@@ -1,11 +1,13 @@
 import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
-import { api } from "./routes/api";
-import { config } from "./config/env";
-import { NotFoundError } from "./lib/errors";
-import { logger, requestLogger } from "./lib/logger";
-import { errorHandler } from "./middlewares/error-handler";
-import { i18nMiddleware } from "./middlewares/i18n";
+import { api } from "@routes/api";
+import { config } from "@config/env";
+import { NotFoundError } from "@lib/errors";
+import { logger, requestLogger } from "@lib/logger";
+import { errorHandler } from "@middlewares/error-handler";
+import { i18nMiddleware } from "@middlewares/i18n";
+import { swaggerUI } from "@hono/swagger-ui";
+import { swaggerConfig } from "@config/swagger";
 
 const app = new Hono();
 
@@ -26,6 +28,10 @@ app.get("/health", (c) => {
 });
 
 app.route("/api", api);
+
+// Swagger UI
+app.get("/docs", swaggerUI({ url: "/api-docs" }));
+app.get("/api-docs", (c) => c.json(swaggerConfig));
 
 // 404 handler
 app.notFound(() => {
