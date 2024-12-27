@@ -1,6 +1,6 @@
+import { userTranslations } from "@/routes/users/langs";
 import i18next from "i18next";
 import i18nextMiddleware from "i18next-http-middleware";
-import { userTranslations } from "@/routes/users/langs";
 import { logger } from "../logger";
 
 // Translation resources

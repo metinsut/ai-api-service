@@ -1,7 +1,7 @@
-import type { Context } from "hono";
 import { env, runTimeSchema } from "@/config/env";
 import { AppError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
+import type { Context } from "hono";
 
 export const errorHandler = async (err: Error, c: Context) => {
   // Log the error

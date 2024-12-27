@@ -1,6 +1,6 @@
+import { i18n } from "@/lib/i18n";
 import type { Context, Next } from "hono";
 import type { TFunction } from "i18next";
-import { i18n } from "@/lib/i18n";
 
 // Extend Context type to include t function
 declare module "hono" {

@@ -1,7 +1,7 @@
 import { userInsertSchema } from "@/lib/db/schema";
 import { auth } from "@/middlewares/auth";
-import { validator } from "hono-openapi/zod";
 import { OpenAPIHono } from "@hono/zod-openapi";
+import { validator } from "hono-openapi/zod";
 import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "./controller";
 
 const users = new OpenAPIHono();

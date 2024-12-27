@@ -1,8 +1,8 @@
-import type { Context, Next } from "hono";
 // import { bearerAuth } from "hono/bearer-auth";
 // import { env } from "@/config/env";
 import { UnauthorizedError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
+import type { Context, Next } from "hono";
 
 export const auth = async (_c: Context, next: Next) => {
   // const middleware = bearerAuth({
