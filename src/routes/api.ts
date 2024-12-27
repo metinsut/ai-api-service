@@ -1,8 +1,8 @@
-import { Hono } from "hono";
-import users from "./users/routes";
+import { users } from "./users/routes";
+import { OpenAPIHono } from "@hono/zod-openapi";
 
-const api = new Hono();
+const router = new OpenAPIHono();
 
-api.route("/users", users);
+router.route("/users", users);
 
-export { api };
+export { router };

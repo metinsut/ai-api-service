@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { config } from "@/config/env";
+import { env, runTimeSchema } from "@/config/env";
 import { AppError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 
@@ -25,7 +25,7 @@ export const errorHandler = async (err: Error, c: Context) => {
   }
 
   // For development, send the stack trace
-  if (config.server.nodeEnv === "development") {
+  if (env.server.nodeEnv === runTimeSchema.Enum.development) {
     return c.json(
       {
         status: "error",

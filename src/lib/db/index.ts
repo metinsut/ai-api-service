@@ -1,10 +1,10 @@
-import { config } from "@/config/env";
+import { env } from "@/config/env";
 import { logger } from "@/lib/logger";
 import { Pool } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-serverless";
 
 // Create the connection pool
-const pool = new Pool({ connectionString: config.database.url });
+const pool = new Pool({ connectionString: env.database.url });
 export const db = drizzle(pool);
 
 // Test the connection

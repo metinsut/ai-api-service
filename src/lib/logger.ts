@@ -1,6 +1,6 @@
 import type { Context, Next } from "hono";
 import pino from "pino";
-import { config } from "@/config/env";
+import { env } from "@/config/env";
 
 const transport = pino.transport({
   target: "pino-pretty",
@@ -13,7 +13,7 @@ const transport = pino.transport({
 
 export const logger = pino(
   {
-    level: config.logger.level,
+    level: env.logger.level,
     formatters: {
       level: (label) => {
         return { level: label };

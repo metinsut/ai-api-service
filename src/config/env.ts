@@ -2,10 +2,11 @@
 
 import { z } from "zod";
 
-// Environment variables schema
+export const runTimeSchema = z.enum(["development", "production", "test"]);
+
 const envSchema = z.object({
   server: z.object({
-    nodeEnv: z.enum(["development", "production", "test"]).default("development"),
+    nodeEnv: runTimeSchema.default("development"),
     port: z.coerce.number().default(3000),
     apiPrefix: z.string().default("/api"),
     corsOrigin: z.string().default("*"),
@@ -23,6 +24,8 @@ const envSchema = z.object({
     level: z.enum(["debug", "info", "warn", "error"]).default("info"),
   }),
 });
+
+export type EnvType = z.infer<typeof envSchema>;
 
 // Parse and validate environment variables
 const env = envSchema.parse({
@@ -43,4 +46,4 @@ const env = envSchema.parse({
   },
 });
 
-export const config = env;
+export { env };
