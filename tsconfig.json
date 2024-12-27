@@ -7,16 +7,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@config/*": ["src/config/*"],
-      "@lib/*": ["src/lib/*"],
-      "@routes/*": ["src/routes/*"],
-      "@middlewares/*": ["src/middlewares/*"],
-      "@components/*": ["src/components/*"],
-      "@schemas/*": ["src/lib/db/schema/*"],
-      "@services/*": ["src/routes/*/service"],
-      "@controllers/*": ["src/routes/*/controller"],
-      "@types/*": ["src/types/*"]
+      "@/*": ["./src/*"]
     },
     "types": ["bun-types"]
   },

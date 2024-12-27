@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import users from "@routes/users/routes";
+import users from "./users/routes";
 
 const api = new Hono();
 
