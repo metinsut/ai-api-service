@@ -7,7 +7,7 @@ import { errorHandler } from "./middlewares/error-handler";
 import { i18nMiddleware } from "./middlewares/i18n";
 import { router } from "./routes/api";
 import { healthRouter } from "./routes/health";
-import { scalarRouter } from "./scalar";
+import { configureOpenAPI } from "./scalar";
 
 const app = new OpenAPIHono({
   strict: false,
@@ -18,7 +18,7 @@ app.use("*", requestLogger());
 app.use("*", prettyJSON());
 app.use("*", i18nMiddleware);
 
-app.route("/", scalarRouter);
+configureOpenAPI(app);
 
 app.route("/health", healthRouter);
 app.route(env.server.apiPrefix, router);
