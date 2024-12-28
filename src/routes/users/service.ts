@@ -13,7 +13,6 @@ export class UserService {
       throw new ConflictError(i18n.t("emailExists", { ns: "users" }));
     }
 
-    // TODO: Hash password before saving
     const user = await userRepository.create(data);
     return user;
   }

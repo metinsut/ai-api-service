@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
+    "dev:debug": "bun --inspect src/index.ts",
     "build": "bun build src/index.ts --outdir dist",
     "build:prod": "bun build src/index.ts --outdir dist --minify",
     "start": "bun run dist/index.js",
@@ -21,6 +22,8 @@
     "@hono/zod-validator": "latest",
     "@neondatabase/serverless": "latest",
     "@scalar/hono-api-reference": "latest",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "drizzle-orm": "latest",
     "drizzle-zod": "latest",
     "hono": "latest",

@@ -1,13 +1,15 @@
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import type { NewUser, User } from "@/lib/db/schema";
+import { hash } from "@/lib/crypto";
 import { eq } from "drizzle-orm";
 
 export class UserRepository {
   async create(data: NewUser): Promise<User> {
+    const hashedPassword = await hash(data.password);
     const [user] = await db
       .insert(users)
-      .values(data as NewUser)
+      .values({ ...data, password: hashedPassword })
       .returning();
     return user;
   }
