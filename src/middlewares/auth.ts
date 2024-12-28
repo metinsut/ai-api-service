@@ -3,8 +3,8 @@ import { UnauthorizedError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import type { Context, Next } from "hono";
 import { verify } from "hono/jwt";
-import { userRepository } from "@/routes/users/repository";
 import { bearerAuth } from "hono/bearer-auth";
+import { findUserById } from "@/routes/users/repository";
 
 export const auth = async (c: Context, next: Next) => {
   const middleware = bearerAuth({
@@ -13,7 +13,7 @@ export const auth = async (c: Context, next: Next) => {
       if (!payload) {
         throw new UnauthorizedError("Authentication failed");
       }
-      const user = await userRepository.findById(payload.sub as number);
+      const user = await findUserById(payload.sub as number);
       if (!user) {
         throw new UnauthorizedError("User not found");
       }

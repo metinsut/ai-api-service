@@ -1,73 +1,43 @@
-import type { NewUser } from "@/lib/db/schema";
-import { ConflictError, NotFoundError } from "@/lib/errors";
-import { i18n } from "@/lib/i18n";
-import { logger } from "@/lib/logger";
-import { userRepository } from "@/routes/users/repository";
+import { hash } from "@/lib/crypto";
+import type { NewUser, User } from "@/lib/db/schema/users";
+import { NotFoundError } from "@/lib/errors";
+import {
+  findAllUsers,
+  findUserById,
+  createUser,
+  updateUserById,
+  deleteUserById,
+} from "./repository";
 
-export class UserService {
-  async createUser(data: NewUser) {
-    logger.debug({ data }, "Creating user");
+export const getAllUsers = async (): Promise<User[]> => {
+  return findAllUsers();
+};
 
-    const existingUser = await userRepository.findByEmail(data.email);
-    if (existingUser) {
-      throw new ConflictError(i18n.t("emailExists", { ns: "users" }));
-    }
-
-    const user = await userRepository.create(data);
-    return user;
+export const getUserById = async (id: number): Promise<User> => {
+  const user = await findUserById(id);
+  if (!user) {
+    throw new NotFoundError("User not found");
   }
+  return user;
+};
 
-  async getUser(id: string) {
-    const userId = Number.parseInt(id, 10);
-    if (Number.isNaN(userId)) {
-      throw new NotFoundError(i18n.t("invalidId", { ns: "users" }));
-    }
+export const createNewUser = async (data: NewUser): Promise<User> => {
+  const hashedPassword = await hash(data.password);
+  return createUser({ ...data, password: hashedPassword });
+};
 
-    const user = await userRepository.findById(userId);
-    if (!user) {
-      throw new NotFoundError(i18n.t("notFound", { ns: "users" }));
-    }
-    return user;
+export const updateUser = async (id: number, data: Partial<NewUser>): Promise<User> => {
+  const user = await updateUserById(id, data);
+  if (!user) {
+    throw new NotFoundError("User not found");
   }
+  return user;
+};
 
-  async updateUser(id: string, data: Partial<NewUser>) {
-    const userId = Number.parseInt(id, 10);
-    if (Number.isNaN(userId)) {
-      throw new NotFoundError(i18n.t("invalidId", { ns: "users" }));
-    }
-
-    const user = await userRepository.findById(userId);
-    if (!user) {
-      throw new NotFoundError(i18n.t("notFound", { ns: "users" }));
-    }
-
-    if (data.email && data.email !== user.email) {
-      const existingUser = await userRepository.findByEmail(data.email);
-      if (existingUser) {
-        throw new ConflictError(i18n.t("emailExists", { ns: "users" }));
-      }
-    }
-
-    return userRepository.update(userId, data);
+export const deleteUser = async (id: number): Promise<void> => {
+  const user = await findUserById(id);
+  if (!user) {
+    throw new NotFoundError("User not found");
   }
-
-  async deleteUser(id: string) {
-    const userId = Number.parseInt(id, 10);
-    if (Number.isNaN(userId)) {
-      throw new NotFoundError(i18n.t("invalidId", { ns: "users" }));
-    }
-
-    const user = await userRepository.findById(userId);
-    if (!user) {
-      throw new NotFoundError(i18n.t("notFound", { ns: "users" }));
-    }
-
-    return userRepository.delete(userId);
-  }
-
-  async getAllUsers() {
-    return userRepository.findAll();
-  }
-}
-
-export const userService = new UserService();
+  await deleteUserById(id);
+};

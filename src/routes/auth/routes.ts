@@ -1,7 +1,12 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { describeRoute } from "hono-openapi";
 import { validator } from "hono-openapi/zod";
-import { login, register, forgotPassword, resetPassword } from "./controller";
+import {
+  loginHandler,
+  registerHandler,
+  forgotPasswordHandler,
+  resetPasswordHandler,
+} from "./controller";
 import { loginSchema, registerSchema, forgotPasswordSchema, resetPasswordSchema } from "./schema";
 
 const auth = new OpenAPIHono();
@@ -31,7 +36,7 @@ auth.post(
     },
   }),
   validator("json", loginSchema),
-  login,
+  loginHandler,
 );
 
 auth.post(
@@ -59,7 +64,7 @@ auth.post(
     },
   }),
   validator("json", registerSchema),
-  register,
+  registerHandler,
 );
 
 auth.post(
@@ -77,7 +82,7 @@ auth.post(
     },
   }),
   validator("json", forgotPasswordSchema),
-  forgotPassword,
+  forgotPasswordHandler,
 );
 
 auth.post(
@@ -95,7 +100,7 @@ auth.post(
     },
   }),
   validator("json", resetPasswordSchema),
-  resetPassword,
+  resetPasswordHandler,
 );
 
 export { auth };

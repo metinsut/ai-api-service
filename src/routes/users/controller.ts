@@ -1,46 +1,32 @@
-import { userService } from "@/routes/users/service";
 import type { Context } from "hono";
+import { getAllUsers, getUserById, createNewUser, updateUser, deleteUser } from "./service";
+
+export const getUser = async (c: Context) => {
+  const id = Number(c.req.param("id"));
+  const user = await getUserById(id);
+  return c.json(user);
+};
 
 export const createUser = async (c: Context) => {
   const data = await c.req.json();
-  const user = await userService.createUser(data);
-  return c.json(
-    {
-      status: "success",
-      data: user,
-      message: c.var.t("created", { ns: "users" }),
-    },
-    201,
-  );
+  const user = await createNewUser(data);
+  return c.json(user, 201);
 };
 
-export const getUser = async (c: Context) => {
-  const id = c.req.param("id");
-  const user = await userService.getUser(id);
-  return c.json({ status: "success", data: user });
-};
-
-export const updateUser = async (c: Context) => {
-  const id = c.req.param("id");
+export const updateUserHandler = async (c: Context) => {
+  const id = Number(c.req.param("id"));
   const data = await c.req.json();
-  const user = await userService.updateUser(id, data);
-  return c.json({
-    status: "success",
-    data: user,
-    message: c.var.t("updated", { ns: "users" }),
-  });
+  const user = await updateUser(id, data);
+  return c.json(user);
 };
 
-export const deleteUser = async (c: Context) => {
-  const id = c.req.param("id");
-  await userService.deleteUser(id);
-  return c.json({
-    status: "success",
-    message: c.var.t("deleted", { ns: "users" }),
-  });
+export const deleteUserHandler = async (c: Context) => {
+  const id = Number(c.req.param("id"));
+  await deleteUser(id);
+  return c.json(true);
 };
 
-export const getAllUsers = async (c: Context) => {
-  const users = await userService.getAllUsers();
-  return c.json({ status: "success", data: users });
+export const getAllUsersHandler = async (c: Context) => {
+  const users = await getAllUsers();
+  return c.json(users);
 };

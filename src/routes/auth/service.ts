@@ -1,48 +1,32 @@
-import { db } from "@/lib/db";
-import { users } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
 import { hash, verify } from "@/lib/crypto";
-import type { LoginInput, RegisterInput } from "./schema";
 import type { User } from "@/lib/db/schema/users";
+import { UnauthorizedError } from "@/lib/errors";
+import type { LoginInput } from "./schema";
+import { findUserByEmail, updatePassword } from "../users/repository";
 
-export const loginUser = async ({ email, password }: LoginInput): Promise<User | null> => {
+export const loginUser = async ({ email, password }: LoginInput): Promise<User> => {
   const user = await findUserByEmail(email);
-  if (!user) return null;
+  if (!user) {
+    throw new UnauthorizedError("Invalid credentials");
+  }
 
   const isValid = await verify(password, user.password);
-  if (!isValid) return null;
+  if (!isValid) {
+    throw new UnauthorizedError("Invalid credentials");
+  }
 
   return user;
 };
 
-export const registerUser = async ({ name, email, password }: RegisterInput): Promise<User> => {
+export const findUserByEmailOrThrow = async (email: string): Promise<User> => {
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw new UnauthorizedError("User not found");
+  }
+  return user;
+};
+
+export const updateUserPassword = async (userId: number, password: string): Promise<void> => {
   const hashedPassword = await hash(password);
-
-  const [user] = await db
-    .insert(users)
-    .values({
-      name,
-      email,
-      password: hashedPassword,
-    })
-    .returning();
-
-  return user;
-};
-
-export const findUserByEmail = async (email: string): Promise<User | null> => {
-  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
-  return user || null;
-};
-
-export const updateUserPassword = async (userId: number, newPassword: string): Promise<void> => {
-  const hashedPassword = await hash(newPassword);
-
-  await db
-    .update(users)
-    .set({
-      password: hashedPassword,
-      updatedAt: new Date(),
-    })
-    .where(eq(users.id, userId));
+  await updatePassword(userId, hashedPassword);
 };
