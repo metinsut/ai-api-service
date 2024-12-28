@@ -26,9 +26,13 @@ export const forgotPasswordHandler = async (c: Context) => {
 };
 
 export const resetPasswordHandler = async (c: Context) => {
-  const { password } = await c.req.json();
-  // TODO: Verify reset token
-  // For now, just update password with a mock user id
-  await updateUserPassword(1, password);
+  const { newPassword } = await c.req.json();
+  const user = c.get("user");
+  await updateUserPassword(user.id, newPassword);
   return c.json({ message: "Password reset successful" });
+};
+
+export const logoutHandler = async (c: Context) => {
+  c.set("user", null);
+  return c.json({ message: "Logged out" });
 };

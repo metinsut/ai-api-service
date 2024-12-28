@@ -6,8 +6,10 @@ import {
   registerHandler,
   forgotPasswordHandler,
   resetPasswordHandler,
+  logoutHandler,
 } from "./controller";
 import { loginSchema, registerSchema, forgotPasswordSchema, resetPasswordSchema } from "./schema";
+import { authMiddleware } from "@/middlewares/auth";
 
 const auth = new OpenAPIHono();
 
@@ -87,6 +89,7 @@ auth.post(
 
 auth.post(
   "/reset-password",
+  authMiddleware,
   describeRoute({
     tags: ["Auth"],
     summary: "Reset password with token",
@@ -102,5 +105,7 @@ auth.post(
   validator("json", resetPasswordSchema),
   resetPasswordHandler,
 );
+
+auth.get("/logout", authMiddleware, logoutHandler);
 
 export { auth };

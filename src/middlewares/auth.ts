@@ -6,7 +6,7 @@ import { verify } from "hono/jwt";
 import { bearerAuth } from "hono/bearer-auth";
 import { findUserById } from "@/routes/users/repository";
 
-export const auth = async (c: Context, next: Next) => {
+export const authMiddleware = async (c: Context, next: Next) => {
   const middleware = bearerAuth({
     verifyToken: async (token, context) => {
       const payload = await verify(token as string, env.auth.secret);
