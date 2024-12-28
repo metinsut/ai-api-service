@@ -9,7 +9,7 @@ import { findUserById } from "@/routes/users/repository";
 export const authMiddleware = async (c: Context, next: Next) => {
   const middleware = bearerAuth({
     verifyToken: async (token, context) => {
-      const payload = await verify(token as string, env.auth.secret);
+      const payload = await verify(token, env.auth.secret);
       if (!payload) {
         throw new UnauthorizedError("Authentication failed");
       }
