@@ -8,6 +8,13 @@
       "when": 1734303001162,
       "tag": "0000_chilly_mimic",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1735514586955,
+      "tag": "0001_goofy_boom_boom",
+      "breakpoints": true
     }
   ]
 }
