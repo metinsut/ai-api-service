@@ -8,6 +8,7 @@ import {
   updateEmployee,
   deleteEmployee,
 } from "./service";
+import { findAllEmployeesCount } from "./repository";
 
 export const seedEmployeesHandler = async (c: Context) => {
   try {
@@ -56,6 +57,11 @@ export const seedEmployeesHandler = async (c: Context) => {
     console.error("Seed error:", error);
     return c.json({ error: "Failed to seed employees" }, 500);
   }
+};
+
+export const getNumberOfEmployeesHandler = async (c: Context) => {
+  const count = await findAllEmployeesCount();
+  return c.json({ count });
 };
 
 export const getAllEmployeesHandler = async (c: Context) => {

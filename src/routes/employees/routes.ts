@@ -1,7 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { describeRoute } from "hono-openapi";
 import { validator } from "hono-openapi/zod";
-import { authMiddleware } from "@/middlewares/auth";
 import { employeeInsertSchema } from "@/lib/db/schema/employees";
 import {
   getAllEmployeesHandler,
@@ -10,12 +9,10 @@ import {
   updateEmployeeHandler,
   deleteEmployeeHandler,
   seedEmployeesHandler,
+  getNumberOfEmployeesHandler,
 } from "./controller";
 
 const employees = new OpenAPIHono();
-
-// Protected routes
-employees.use("/*", authMiddleware);
 
 employees.post(
   "/seed",
@@ -32,6 +29,20 @@ employees.post(
     },
   }),
   seedEmployeesHandler,
+);
+
+employees.get(
+  "/get-number-of-employees",
+  describeRoute({
+    tags: ["Employees"],
+    summary: "Get number of employees",
+    responses: {
+      200: {
+        description: "Number of employees",
+      },
+    },
+  }),
+  getNumberOfEmployeesHandler,
 );
 
 employees.get(

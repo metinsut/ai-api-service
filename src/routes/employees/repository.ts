@@ -1,10 +1,15 @@
 import { db } from "@/lib/db";
 import { employees } from "@/lib/db/schema/employees";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import type { Employee, NewEmployee } from "@/lib/db/schema/employees";
 
 export const findAllEmployees = async (): Promise<Employee[]> => {
   return db.select().from(employees);
+};
+
+export const findAllEmployeesCount = async (): Promise<number> => {
+  const [employee] = await db.select({ count: sql<number>`count(*)` }).from(employees);
+  return employee?.count || 0;
 };
 
 export const findEmployeeById = async (id: number): Promise<Employee | null> => {
