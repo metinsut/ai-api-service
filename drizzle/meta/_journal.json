@@ -15,6 +15,13 @@
       "when": 1735514586955,
       "tag": "0001_goofy_boom_boom",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735515443229,
+      "tag": "0002_bent_beast",
+      "breakpoints": true
     }
   ]
 }

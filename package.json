@@ -22,8 +22,8 @@
     "@hono/zod-validator": "latest",
     "@neondatabase/serverless": "latest",
     "@scalar/hono-api-reference": "latest",
-    "@types/bcrypt": "^5.0.2",
-    "bcrypt": "^5.1.1",
+    "@types/bcrypt": "latest",
+    "bcrypt": "latest",
     "drizzle-orm": "latest",
     "drizzle-zod": "latest",
     "hono": "latest",
@@ -38,6 +38,7 @@
     "zod-openapi": "latest"
   },
   "devDependencies": {
+    "@faker-js/faker": "latest",
     "@types/node": "latest",
     "@types/pg": "latest",
     "bun-types": "latest",

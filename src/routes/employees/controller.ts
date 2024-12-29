@@ -1,4 +1,6 @@
 import type { Context } from "hono";
+import { faker } from "@faker-js/faker";
+import type { NewEmployee } from "@/lib/db/schema/employees";
 import {
   getAllEmployees,
   getEmployeeById,
@@ -6,6 +8,55 @@ import {
   updateEmployee,
   deleteEmployee,
 } from "./service";
+
+export const seedEmployeesHandler = async (c: Context) => {
+  try {
+    const employees: NewEmployee[] = Array.from({ length: 1000 }, () => ({
+      fullName: faker.person.fullName(),
+      email: faker.internet.email(),
+      gender: faker.helpers.arrayElement(["Male", "Female", "Other"]),
+      avatar: faker.image.avatar(),
+      company: faker.company.name(),
+      department: faker.commerce.department(),
+      position: faker.person.jobTitle(),
+      language: faker.helpers.arrayElement([
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Chinese",
+        "Arabic",
+        "Turkish",
+        "Kurdish",
+        "Farsi",
+        "Japanese",
+        "Korean",
+        "Italian",
+        "Portuguese",
+        "Dutch",
+        "Russian",
+        "Polish",
+        "Swedish",
+        "Norwegian",
+      ]),
+      university: faker.company.name(),
+      country: faker.location.country(),
+      birthDate: faker.date.birthdate(),
+    }));
+
+    const createdEmployees = await Promise.all(
+      employees.map((employee) => createNewEmployee(employee)),
+    );
+
+    return c.json({
+      message: "Successfully seeded 1000 employees",
+      count: createdEmployees.length,
+    });
+  } catch (error) {
+    console.error("Seed error:", error);
+    return c.json({ error: "Failed to seed employees" }, 500);
+  }
+};
 
 export const getAllEmployeesHandler = async (c: Context) => {
   const employees = await getAllEmployees();

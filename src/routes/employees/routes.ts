@@ -9,12 +9,30 @@ import {
   createEmployeeHandler,
   updateEmployeeHandler,
   deleteEmployeeHandler,
+  seedEmployeesHandler,
 } from "./controller";
 
 const employees = new OpenAPIHono();
 
 // Protected routes
 employees.use("/*", authMiddleware);
+
+employees.post(
+  "/seed",
+  describeRoute({
+    tags: ["Employees"],
+    summary: "Seed 100 random employees",
+    responses: {
+      200: {
+        description: "Employees seeded successfully",
+      },
+      500: {
+        description: "Failed to seed employees",
+      },
+    },
+  }),
+  seedEmployeesHandler,
+);
 
 employees.get(
   "/",
